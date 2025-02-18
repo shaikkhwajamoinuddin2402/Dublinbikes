@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Weather API</title>
+    <script>
+        async function getWeather() {
+            let apiKey = "85a692e8317970bf787b2dc773b61753"; // Replace with your new API Key
+            let city = "Dublin"; // Change to your desired city
+            let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+            try {
+                let response = await fetch(url);
+                let data = await response.json();
+
+                if (response.ok) {
+                    document.getElementById("weather").innerHTML =
+                        `Temperature: ${data.main.temp}°C <br> Weather: ${data.weather[0].description}`;
+                } else {
+                    document.getElementById("weather").innerHTML = 
+                        `Error: ${data.message}`;
+                }
+            } catch (error) {
+                document.getElementById("weather").innerHTML = "Failed to fetch weather data.";
+            }
+        }
+    </script>
+</head>
+<body onload="getWeather()">
+    <h1>Weather in Dublin</h1>
+    <div id="weather"></div>
+</body>
+</html>
