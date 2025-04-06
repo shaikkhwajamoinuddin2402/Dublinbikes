@@ -1,0 +1,1 @@
+The "historical_bike_data_cleaning.ipynb" notebook was used to clean the historical bike data provided for machine learning (ML). Further, the "ml_training.ipynb" was used to train the model and generate pickle files for each station, these can be found in the "station_models.zip".
