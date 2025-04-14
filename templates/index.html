@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dublin Bikes - Home</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <div class="logo">Dublin Bikes</div>
+    <nav>
+      <ul>
+        <li><a href="/" class="active">Home</a></li>
+        <li><a href="/map">Find a Bike</a></li>
+        <li><a href="/weather">Forecast</a></li>
+        <li><a href="/review">Review</a></li>
+        {% if session.user_id %}
+        
+          <li><a href="/logout">Logout</a></li>
+        {% else %}
+          <li><a href="/login">Login/Signup</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Effortless Rides,<br>Anytime, Anywhere in Ireland.</h1>
+        <p>Find, Unlock, and Ride a Bike in just a Few Taps. Eco-friendly, Affordable, and Always Available!</p>
+        <a href="/map" class="hero-button">Ride Now</a>
+      </div>
+      <div class="hero-image">
+        <img src="{{ url_for('static', filename='bike.png') }}" alt="Dublin Bike" />
+      </div>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Dublin Bikes. All rights reserved.</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,14 @@
+id,city,temperature,feels_like,humidity,wind_speed,description,last_update
+1,Dublin,9.4,6.42,73,6.17,broken clouds,2025-03-03 09:29:54
+2,Dublin,10.81,9.72,68,6.17,broken clouds,2025-03-03 10:29:54
+3,Dublin,11.56,10.63,71,6.17,broken clouds,2025-03-03 11:29:54
+4,Dublin,12.16,11.18,67,5.66,broken clouds,2025-03-03 12:29:55
+5,Dublin,12.65,11.69,66,5.14,broken clouds,2025-03-03 13:29:55
+6,Dublin,12.24,11.3,68,5.14,broken clouds,2025-03-03 14:29:55
+7,Dublin,12.44,11.49,67,5.14,broken clouds,2025-03-03 15:29:55
+8,Dublin,12.16,11.18,67,3.6,broken clouds,2025-03-03 16:29:55
+9,Dublin,11.26,10.32,72,3.6,broken clouds,2025-03-03 17:29:55
+10,Dublin,10.96,10.02,73,3.09,broken clouds,2025-03-03 18:29:56
+11,Dublin,10.35,9.37,74,2.24,broken clouds,2025-03-03 19:29:56
+12,Dublin,10.21,9.19,73,2.57,broken clouds,2025-03-03 20:29:56
+13,Dublin,10.16,9.09,71,4.12,broken clouds,2025-03-03 21:29:56

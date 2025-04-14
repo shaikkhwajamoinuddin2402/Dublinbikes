@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dublin Bikes - Station Map</title>
+  <!-- Reference your unified CSS using Flask's url_for -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+  <!-- Leaflet & Additional Libraries -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+
+  <!-- Chart.js, PapaParse, Font Awesome (for weather icons) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- Header Section -->
+  <header>
+    <div class="logo">Dublin Bikes</div>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/map" class="active">Map</a></li>
+        <li><a href="/weather">Forecast</a></li>
+        <li><a href="/review">Review</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Map Controls Section -->
+    <section class="map-controls">
+      <div class="station-search" style="position: relative; z-index: 1002;">
+        <input type="text" id="stationSearch" placeholder="Search for a station..." />
+        <button id="searchBtn" class="btn-red">Search</button>
+        <ul id="searchResults"></ul>
+      </div>
+      <div class="view-toggles">
+        <button id="toggleSatelliteBtn" class="btn-gray">Satellite View</button>
+        <button id="toggleHeatmapBtn" class="btn-gray">Hide Heatmap</button>
+        <button id="getDirectionsBtn" class="btn-green">Get Directions</button>
+        
+      </div>
+      <div class="dropdown-section">
+        <label for="stationSelect">Select Station:</label>
+        <select id="stationSelect"></select>
+      </div>
+      <!-- Live Search Suggestions -->
+      <ul id="searchResults"></ul>
+    </section>
+
+    <!-- Map Container (Wide and Tall) -->
+    <section class="map-fullwidth">
+      <div id="map" class="map-large"></div>
+    </section>
+
+    <!-- Bike Availability Chart Section -->
+    <section class="graphs-section">
+      <h2>Bike Availability Trend</h2>
+      <canvas id="bikeChart"></canvas>
+    </section>
+
+    <!-- Weather Trends Section -->
+    <section class="weather-section">
+      <h2>Weather Trends</h2>
+      <div class="weather-cards" id="weatherCards"></div>
+      <!-- Weather Modal for Detailed Info -->
+      <div id="weatherModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 id="modalTitle">Weather Details</h3>
+            <span class="close-button" id="closeModal">&times;</span>
+          </div>
+          <div class="weather-details" id="weatherDetails"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer Section -->
+  <footer>
+    <p>&copy; 2025 Dublin Bikes. All rights reserved.</p>
+  </footer>
+
+  <!-- Leaflet JS & Plugins -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+  <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+  <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+
+  <!-- Custom JavaScript -->
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
