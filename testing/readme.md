@@ -1,1 +1,1 @@
-
+This contains the testing files that were used to carry out automated testing. The "test_app.py" script was used to test all major Flask routes and functionalities. The "test_email.py" script served as a test for the email functionality. While the "test_js_logic.py" file was used to test the frontend JavaScript logic using Python.
