@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dublin Bikes - Bike Forecast</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script type="module" src="{{ url_for('static', filename='javascript/main.js') }}" defer></script>
+  <style>
+    <!-- Inline styles used for page specific elements to keep global CSS clean. -->
+    .custom-select-container {
+      position: relative;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .custom-select-selected {
+      background-color: white;
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .custom-select-selected:after {
+      content: '\25BC';
+      font-size: 12px;
+    }
+
+    .custom-select-dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      border: 1px solid #ccc;
+      border-top: none;
+      background-color: white;
+      max-height: 300px;
+      overflow-y: auto;
+      z-index: 100;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .custom-select-dropdown.show {
+      display: block;
+    }
+
+    .custom-select-option {
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    .custom-select-option:hover {
+      background-color: #f0f0f0;
+    }
+
+    .hidden-select {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Dublin Bikes</div>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/map">Map</a></li>
+        <li><a href="/weather" class="active">Forecast</a></li>
+        <li><a href="/review">Review</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="form-section">
+      <h2>Bike Availability Forecast</h2>
+
+      <form id="predict-form" onsubmit="event.preventDefault(); predict();">
+        <label for="date">Select Date:</label>
+        <input type="date" id="date" required>
+
+        <label for="time">Select Time:</label>
+        <input type="time" id="time" required>
+
+        <label for="station_select">Select Station:</label>
+        <select id="station_name" class="hidden-select" required>
+          <option value="">Select a station</option>
+        </select>
+
+        <div class="custom-select-container">
+          <div class="custom-select-selected" id="selected-station">Select a station</div>
+          <div class="custom-select-dropdown" id="station-dropdown">
+            <div class="custom-select-option" data-value="">Loading stations...</div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-green">Predict</button>
+      </form>
+
+      <div id="result" style="margin-top: 20px; text-align: center; font-weight: bold;"></div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Dublin Bikes. All rights reserved.</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dublin Bikes - Contact Us</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <div class="logo">Dublin Bikes</div>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/map">Map</a></li>
+        <li><a href="/weather">Forecast</a></li>
+        <li><a href="/review" class="active">Review</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <section class="form-section contact-container">
+      <h2>Contact Us</h2>
+      <form action="/submit_contact" method="post" id="contactForm">
+        <label for="first">Name</label>
+        <div class="name-group">
+          <input type="text" name="first" id="first" placeholder="First" required>
+          <input type="text" name="last" id="last" placeholder="Last" required>
+        </div>
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" placeholder="example@email.com" required>
+        <label for="message">Message</label>
+        <textarea name="message" id="message" rows="5" placeholder="Type your message..." required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <p class="flash">{{ messages[0] }}</p>
+        {% endif %}
+      {% endwith %}
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Dublin Bikes. All rights reserved.</p>
+  </footer>
+</body>
+</html>

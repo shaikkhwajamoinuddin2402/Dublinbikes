@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dublin Bikes - Station Map</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header>
+    <div class="logo">Dublin Bikes</div>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/map" class="active">Map</a></li>
+        <li><a href="/weather">Forecast</a></li>
+        <li><a href="/review">Review</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main map and station selector area -->
+  <main>
+    <!-- Inline styles are applied here without affecting global styles. -->
+    <section class="map-controls" style="display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end;">
+      <!-- Station Start Selector -->
+      <div class="field-group" style="min-width: 180px;">
+        <label for="startStation">From:</label>
+        <select id="startStation" style="height: 42px; border-radius: 4px; padding: 8px; border: 1px solid #ccc;">
+          <option disabled selected>Select your starting point</option>
+        </select>
+      </div>
+
+      <!-- Station End Selector -->
+      <div class="field-group" style="min-width: 180px;">
+        <label for="endStation">To:</label>
+        <select id="endStation" style="height: 42px; border-radius: 4px; padding: 8px; border: 1px solid #ccc;">
+          <option disabled selected>Select your destination</option>
+        </select>
+      </div>
+
+      <!-- Buttons Group -->
+      <div style="display: flex; gap: 10px;">
+        <button id="routeBtn" class="btn btn-green" style="height: 42px;">Get Directions</button>
+        <button id="toggleSatelliteBtn" class="btn btn-gray" style="height: 42px;">Satellite View</button>
+        <button id="toggleHeatmapBtn" class="btn btn-gray" style="height: 42px;">Hide Heatmap</button>
+      </div>
+
+      <!-- Search Section and Dropdown -->
+      <div style="flex: 1 1 100%; display: flex; gap: 20px; margin-top: 10px;">
+        <div class="field-group" style="width: 300px; position: relative;">
+          <label for="stationSearch">Search Station:</label>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <input
+              type="text"
+              id="stationSearch"
+              placeholder="Search for a station..."
+              style="height: 26px; border-radius: 4px; padding: 8px; flex: 1; border: 1px solid #ccc;"
+            />
+            <button
+              id="searchBtn"
+              class="btn btn-blue"
+              style="height: 42px; border-radius: 4px;"
+            >
+              Search
+            </button>
+          </div>
+
+          <!-- Inline styles used here dynamic dropdown visibility and layering. -->
+          <ul id="searchResults" style="
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            z-index: 9999;
+            list-style: none;
+            padding: 0;
+            margin: 4px 0 0;
+            display: none;
+            max-height: 200px;
+            overflow-y: auto;
+          "></ul>
+        </div>
+
+        <!-- General Station Select -->
+        <div class="field-group" style="min-width: 240px;">
+          <label for="stationSelect">Select Station:</label>
+          <select
+            id="stationSelect"
+            style="height: 42px; border-radius: 4px; padding: 8px; border: 1px solid #ccc;"
+          >
+            <option disabled selected>Select a station</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- Leaflet Map Container -->
+    <section class="map-fullwidth">
+      <div id="map" class="map-large">
+        <!-- 
+          Weather widget styled inline for absolute positioning within the map container. 
+          Allows placement in top-right corner regardless of map size. 
+        -->
+        <div id="weatherWidget" style="
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          z-index: 1000;
+          background: rgba(255, 255, 255, 0.9);
+          padding: 8px 12px;
+          border-radius: 6px;
+          box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+          font-size: 13px;
+          max-width: 160px;
+          pointer-events: none;
+        ">
+          <strong style="font-size: 13px;">Weather</strong>
+          <div id="weatherWidgetContent" style="margin-top: 4px;">Loading...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Graph Section -->
+    <section class="graphs-section">
+      <h2>Bike Availability Trend</h2>
+      <canvas id="bikeChart"></canvas>
+    </section>
+
+    <!-- Weather Section -->
+    <section class="weather-section">
+      <h2>Weather Trends</h2>
+      <div class="weather-cards" id="weatherCards"></div>
+      <div id="weatherModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 id="modalTitle">Weather Details</h3>
+            <span class="close-button" id="closeModal">&times;</span>
+          </div>
+          <div class="weather-details" id="weatherDetails"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Page Footer -->
+  <footer>
+    <p>&copy; 2025 Dublin Bikes. All rights reserved.</p>
+  </footer>
+
+  <!-- JS Scripts -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+  <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+  <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+  <script type="module" src="{{ url_for('static', filename='javascript/main.js') }}" defer></script>
+</body>
+</html>
