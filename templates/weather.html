@@ -4,9 +4,7 @@
   <meta charset="UTF-8">
   <title>Dublin Bikes - Bike Forecast</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <script type="module" src="{{ url_for('static', filename='javascript/main.js') }}" defer></script>
   <style>
-    <!-- Inline styles used for page specific elements to keep global CSS clean. -->
     .custom-select-container {
       position: relative;
       width: 100%;
@@ -109,5 +107,89 @@
   <footer>
     <p>&copy; 2025 Dublin Bikes. All rights reserved.</p>
   </footer>
+
+  <script>
+    let stationMap = {};
+    const realSelect = document.getElementById("station_name");
+    const customSelected = document.getElementById("selected-station");
+    const dropdownContainer = document.getElementById("station-dropdown");
+
+    customSelected.addEventListener("click", function() {
+      dropdownContainer.classList.toggle("show");
+    });
+
+    document.addEventListener("click", function(event) {
+      if (!event.target.closest('.custom-select-container')) {
+        dropdownContainer.classList.remove("show");
+      }
+    });
+
+    fetch("/stations")
+      .then(response => response.json())
+      .then(data => {
+        dropdownContainer.innerHTML = '';
+        realSelect.innerHTML = '<option value="">Select a station</option>';
+
+        const defaultOption = document.createElement("div");
+        defaultOption.className = "custom-select-option";
+        defaultOption.dataset.value = "";
+        defaultOption.textContent = "Select a station";
+        dropdownContainer.appendChild(defaultOption);
+
+        data.forEach(station => {
+          stationMap[station.name] = station.id;
+
+          const option = document.createElement("option");
+          option.value = station.name;
+          option.textContent = station.name;
+          realSelect.appendChild(option);
+
+          const customOption = document.createElement("div");
+          customOption.className = "custom-select-option";
+          customOption.dataset.value = station.name;
+          customOption.textContent = station.name;
+          dropdownContainer.appendChild(customOption);
+
+          customOption.addEventListener("click", function() {
+            const selectedValue = this.dataset.value;
+            customSelected.textContent = selectedValue || "Select a station";
+            realSelect.value = selectedValue;
+            dropdownContainer.classList.remove("show");
+          });
+        });
+      })
+      .catch(err => {
+        dropdownContainer.innerHTML = '<div class="custom-select-option">Error loading stations</div>';
+        realSelect.innerHTML = "<option>Error loading stations</option>";
+      });
+
+    function predict() {
+      const date = document.getElementById("date").value;
+      const time = document.getElementById("time").value;
+      const stationName = realSelect.value;
+      const station_id = stationMap[stationName];
+      const resultDiv = document.getElementById("result");
+
+      if (!date || !time || !stationName || !station_id) {
+        resultDiv.innerText = "Please fill in all fields.";
+        return;
+      }
+
+      const formattedTime = `${time}:00`;
+
+      fetch(`/predict?date=${date}&time=${formattedTime}&station_id=${station_id}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.predicted_available_bikes !== undefined) {
+            resultDiv.innerText = `Predicted Available Bikes: ${data.predicted_available_bikes}`;
+          } else {
+            resultDiv.innerText = `Error: ${data.error}`;
+          }
+        })
+        .catch(error => {
+          resultDiv.innerText = `Error: ${error.message}`;
+        });
+    }
+  </script>
 </body>
 </html>
