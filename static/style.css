@@ -1,0 +1,590 @@
+/* -----------------------------------------------------
+   1) GLOBAL STYLES
+----------------------------------------------------- */
+
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #F8F6ED;
+  color: #333;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Global Headings and Links */
+h1, h2, h3, h4, h5, h6 {
+  color: #222;
+  margin-bottom: 15px;
+}
+a {
+  text-decoration: none;
+  color: #000;
+  transition: color 0.3s ease;
+}
+a:hover {
+  color: #444;
+}
+
+/* -----------------------------------------------------
+   2) HEADER & NAVIGATION
+----------------------------------------------------- */
+header {
+  background-color: #FFFFFF;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #DDD;
+}
+header .logo {
+  font-size: 1.8em;
+  font-weight: bold;
+  color: #000;
+}
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+nav ul li a {
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+nav ul li a:hover,
+nav ul li a.active {
+  background-color: #E8E2D3;
+}
+.login-signup a {
+  font-size: 1rem;
+  padding: 5px 10px;
+  border: 1px solid #CCC;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+  color: #000;
+}
+.login-signup a:hover {
+  background-color: #E8E2D3;
+}
+
+/* -----------------------------------------------------
+   3) MAIN CONTENT & GENERIC SECTIONS
+----------------------------------------------------- */
+main {
+  max-width: 1100px;
+  width: 100%;
+  margin: 20px auto;
+  padding: 0 20px;
+  flex: 1;
+}
+.content-section,
+.form-section {
+  background-color: #F2ECD9;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+.content-section h1,
+.content-section h2,
+.form-section h2 {
+  color: #000;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* -----------------------------------------------------
+   4) FORMS (Login, Signup, Contact)
+----------------------------------------------------- */
+.form-section {
+  background-color: #F2ECD9;
+  padding: 20px;
+  margin: 20px auto;
+  border-radius: 5px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  max-width: 500px; /* 👈 Set a maximum width */
+  width: 100%;
+}
+
+.form-section form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.form-section form label {
+  font-weight: bold;
+  color: #000;
+}
+.form-section form input,
+.form-section form textarea,
+.form-section form select {
+  padding: 10px;
+  border: 1px solid #CCC;
+  border-radius: 4px;
+  background-color: #FFF;
+  color: #333;
+}
+.form-section form button {
+  padding: 10px;
+  background-color: #000;
+  color: #FFF;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.form-section form button:hover {
+  background-color: #333;
+}
+.form-section p {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 0.95rem;
+}
+.form-section p a {
+  color: #007bff;
+}
+.form-section p a:hover {
+  text-decoration: underline;
+}
+
+/* -----------------------------------------------------
+   4a) HERO SECTION (Home Page)
+----------------------------------------------------- */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #F2ECD9;
+  padding: 40px 20px;
+  border-radius: 5px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+.hero-content {
+  max-width: 50%;
+}
+.hero-content h1 {
+  font-size: 2.5rem;
+  line-height: 1.2;
+  margin-bottom: 20px;
+  color: #000;
+}
+.hero-content p {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+.hero-button {
+  display: inline-block;
+  padding: 15px 25px;
+  background-color: #000;
+  color: #FFF;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: background 0.3s ease;
+}
+.hero-button:hover {
+  background-color: #333;
+}
+.hero-image {
+  max-width: 45%;
+  display: flex;
+  justify-content: center;
+}
+.hero-image img {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* -----------------------------------------------------
+   4b) MAP PAGE LAYOUT
+----------------------------------------------------- */
+.map-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  background-color: #F8F6ED;
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.station-search {
+  flex: 1 1 250px;
+  display: flex;
+  gap: 10px;
+}
+.view-toggles {
+  display: flex;
+  gap: 10px;
+}
+.dropdown-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.dropdown-section label {
+  font-weight: bold;
+  color: #000;
+}
+.map-fullwidth {
+  margin-bottom: 20px;
+}
+.map-large {
+  width: 100%;
+  height: 700px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.graphs-section {
+  background-color: #fff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.graphs-section h2 {
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+  color: #000;
+}
+#bikeChart {
+  width: 100%;
+  max-width: 1000px;
+  height: 400px;
+  margin: 0 auto;
+  border: 1px solid #eee;
+  display: block;
+}
+.weather-section {
+  background-color: #fff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.weather-section h2 {
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+  color: #000;
+}
+
+/* Search Bar */
+.station-search {
+  position: relative;
+  width: 100%;
+  display: flex;
+  gap: 5px;
+}
+
+.station-search input {
+  flex: 1;
+  min-width: 0;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #CCC;
+  border-radius: 4px;
+}
+
+
+/* Search Results Styling */
+#searchResults {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 2000;
+  display: none;
+}
+
+#searchResults li {
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  list-style-type: none;
+}
+
+#searchResults li:last-child {
+  border-bottom: none;
+}
+
+#searchResults li:hover {
+  background-color: #f0f0f0;
+  color: #0077b6;
+}
+
+.station-search {
+  position: relative;
+  flex: 2;
+  display: flex;
+  gap: 0;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: visible;
+  z-index: 1002;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+/* Weather Cards & Modal */
+.weather-cards {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding: 10px 0;
+}
+.weather-card {
+  flex: 0 0 auto;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 12px;
+  text-align: center;
+  min-width: 85px;
+  max-width: 90px;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  transition: 0.2s ease-in-out;
+}
+.weather-card:hover {
+  border-color: #0077b6;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+.weather-icon {
+  font-size: 20px;
+  margin: 8px 0;
+}
+.weather-icon i {
+  color: #6c757d;
+  transition: color 0.3s ease;
+}
+.weather-card:hover .weather-icon i {
+  color: #0077b6;
+}
+.temperature {
+  font-weight: bold;
+  color: #444;
+}
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 400px;
+  width: 90%;
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 10px;
+}
+.close-button {
+  font-size: 22px;
+  cursor: pointer;
+}
+.weather-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.detail-label {
+  font-weight: bold;
+  font-size: 0.85em;
+}
+.detail-value {
+  font-size: 0.9em;
+}
+
+/* -----------------------------------------------------
+   5) FOOTER
+----------------------------------------------------- */
+footer {
+  background-color: #FFFFFF;
+  color: #000;
+  text-align: center;
+  padding: 15px;
+  border-top: 1px solid #DDD;
+}
+
+/* -----------------------------------------------------
+   6) CONTACT/REVIEW PAGE (For Contact Us/Review)
+----------------------------------------------------- */
+.contact-container {
+  max-width: 500px;
+  margin: 0 auto 20px;
+  background-color: #F2ECD9;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+.contact-container h2 {
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  color: #000;
+}
+.contact-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.contact-container form label {
+  font-weight: bold;
+  color: #000;
+}
+.contact-container form input,
+.contact-container form textarea {
+  padding: 10px;
+  border: 1px solid #CCC;
+  border-radius: 4px;
+  background-color: #FFF;
+  color: #333;
+}
+.contact-container form button {
+  padding: 10px;
+  background-color: #000;
+  color: #FFF;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.contact-container form button:hover {
+  background-color: #333;
+}
+.contact-container p {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 0.95rem;
+}
+.contact-container p a {
+  color: #007bff;
+}
+.contact-container p a:hover {
+  text-decoration: underline;
+}
+
+.contact-container h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.name-group {
+  display: flex;
+  gap: 12px;
+}
+
+.name-group input {
+  flex: 1;
+}
+
+/* -----------------------------------------------------
+   7) BUTTONS (Reusable Styles)
+----------------------------------------------------- */
+.btn {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.btn-blue {
+  background-color: #0077b6;
+  color: #fff;
+}
+.btn-blue:hover {
+  background-color: #005f91;
+}
+
+.btn-gray {
+  background-color: #7f8c8d;
+  color: #fff;
+}
+.btn-gray:hover {
+  background-color: #626e70;
+}
+
+.btn-green {
+  background-color: #27ae60;
+  color: #fff;
+}
+.btn-green:hover {
+  background-color: #1e8449;
+}
+
+/* -----------------------------------------------------
+   8) FINAL LAYOUT FOR MAP CONTROLS
+----------------------------------------------------- */
+
+.control-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.control-column {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.field-group label {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.search-combo {
+  display: flex;
+  gap: 8px;
+}
+
+.search-combo input {
+  flex: 1;
+  padding: 8px;
+}
+
+.search-combo button {
+  padding: 8px 16px;
+}
+
+.toggles-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
