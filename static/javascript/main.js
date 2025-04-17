@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   /*************************************************************
-   * 1) Map Initialization & Tile Layers
+   * 1) Map Initialization and Tile Layers
    *************************************************************/
   const osmLayer = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution: "© OpenStreetMap contributors"
@@ -506,7 +506,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /*************************************************************
- * Live Weather Widget (No API Key in Frontend)
+ * Live Weather Widget
  *************************************************************/
 const weatherWidgetContent = document.getElementById("weatherWidgetContent");
 
