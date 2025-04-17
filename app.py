@@ -259,7 +259,7 @@ def predict():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# API endpoint to fetch live station list.
+# API endpoint to fetch live station list for predictions.
 @app.route("/stations", methods=["GET"])
 @login_required
 def get_stations():
@@ -273,6 +273,37 @@ def get_stations():
             }
             for s in data]
         return jsonify(station_list)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# Route to fetch live weather data.
+@app.route("/get_live_weather", methods=["GET"])
+def get_live_weather():
+    api_key = os.getenv("OPENWEATHERMAP_API_KEY")
+    city = "Dublin,IE"
+    url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&units=metric&appid={api_key}"
+    
+    try:
+        response = requests.get(url)
+        data = response.json()
+        
+        if response.status_code == 200:
+            return jsonify(data)
+        else:
+            return jsonify({"error": "Unable to fetch weather data"}), 500
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# Route to fetch live station data.
+@app.route("/stations_list", methods=["GET"])
+def get_stations_list():
+    JCDECAUX_API_KEY = os.getenv("JCDECAUX_API_KEY")
+    url = f"https://api.jcdecaux.com/vls/v1/stations?contract=dublin&apiKey={JCDECAUX_API_KEY}"
+    try:
+        response = requests.get(url)
+        data = response.json()
+        return jsonify(data)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
