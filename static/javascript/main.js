@@ -2,7 +2,7 @@
  * Weather Forecast Page - Custom Station Select + Prediction
  *************************************************************/
 document.addEventListener("DOMContentLoaded", () => {
-  if (!document.getElementById("station_name")) return; // Only run if it's weather.html
+  if (!document.getElementById("station_name")) return;
 
   let stationMap = {};
   const realSelect = document.getElementById("station_name");
@@ -20,7 +20,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  fetch("/stations")
+  // Fetch stations securely from Flask backend
+  fetch("/stations_list")
     .then(response => response.json())
     .then(data => {
       dropdownContainer.innerHTML = '';
@@ -59,7 +60,6 @@ document.addEventListener("DOMContentLoaded", () => {
       realSelect.innerHTML = "<option>Error loading stations</option>";
     });
 
-  // Expose predict globally for inline form use
   window.predict = function () {
     const date = document.getElementById("date").value;
     const time = document.getElementById("time").value;
@@ -164,92 +164,42 @@ document.addEventListener("DOMContentLoaded", () => {
   let markers = [];
   let selectedDestination = null;
 
-  const JCDECAUX_API_KEY = "73d438ede71ddb620f39852e803a61811835fe3e";
-  const stationsUrl = `https://api.jcdecaux.com/vls/v1/stations?contract=dublin&apiKey=${JCDECAUX_API_KEY}`;
-
-  fetch(stationsUrl)
+  fetch("/stations_list")
     .then(response => {
       if (!response.ok) throw new Error("Network response not ok: " + response.statusText);
       return response.json();
     })
     .then(data => {
-    stationsData = data;
+      stationsData = data;
 
-   
-    populateStationRoutingDropdowns(stationsData);
+      populateStationRoutingDropdowns(stationsData);
 
-    stationsData.forEach(station => {
-      const lat = station.position.lat;
-      const lng = station.position.lng;
-      const marker = L.marker([lat, lng]).addTo(map);
-      const statusFormatted = station.status.charAt(0).toUpperCase() + station.status.slice(1).toLowerCase();
+      stationsData.forEach(station => {
+        const lat = station.position.lat;
+        const lng = station.position.lng;
+        const marker = L.marker([lat, lng]).addTo(map);
+        const statusFormatted = station.status.charAt(0).toUpperCase() + station.status.slice(1).toLowerCase();
 
-      marker.bindPopup(`
-        <div class="station-popup">
-          <h4>${station.name}</h4>
-          <p><strong>Available Bikes:</strong> ${station.available_bikes}</p>
-          <p><strong>Available Stands:</strong> ${station.available_bike_stands}</p>
-          <p><strong>Status:</strong> ${statusFormatted}</p>
-        </div>
-      `);
-marker.on("click", () => {
-    stationSelect.value = station.number;
-    stationSelect.dispatchEvent(new Event("change"));
-  });
+        marker.bindPopup(`
+          <div class="station-popup">
+            <h4>${station.name}</h4>
+            <p><strong>Available Bikes:</strong> ${station.available_bikes}</p>
+            <p><strong>Available Stands:</strong> ${station.available_bike_stands}</p>
+            <p><strong>Status:</strong> ${statusFormatted}</p>
+          </div>
+        `);
 
-      markers.push({ station, marker });
-    });
+        marker.on("click", () => {
+          stationSelect.value = station.number;
+          stationSelect.dispatchEvent(new Event("change"));
+        });
 
-  updateHeatmap();
-})
-
-    .catch(error => console.error("Error fetching station data:", error));
-
-
-  const searchInput = document.getElementById("stationSearch");
-  const searchBtn = document.getElementById("searchBtn");
-  const searchResults = document.getElementById("searchResults");
-  const stationSelect = document.getElementById("stationSelect");
-
-  function handleSearch() {
-    const query = searchInput.value.toLowerCase().trim();
-    searchResults.innerHTML = "";
-    if (!query) {
-      searchResults.style.display = "none";
-      return;
-    }
-    const filteredStations = stationsData.filter(station =>
-      station.name.toLowerCase().includes(query)
-    );
-    if (filteredStations.length > 0) {
-      searchResults.style.display = "block";
-      filteredStations.forEach(station => {
-        const li = document.createElement("li");
-        li.textContent = station.name;
-        li.addEventListener("click", () => {
-  map.setView([station.position.lat, station.position.lng], 16);
-  const markerObj = markers.find(m => m.station.number === station.number);
-  if (markerObj) markerObj.marker.openPopup();
-
-  selectedDestination = station;
-
-  // Sync dropdown selection and trigger change
-  stationSelect.value = station.number;
-  stationSelect.dispatchEvent(new Event("change"));
-
-  searchResults.innerHTML = "";
-  searchResults.style.display = "none";
-  searchInput.value = station.name;
-});
-        searchResults.appendChild(li);
+        markers.push({ station, marker });
       });
-    } else {
-      searchResults.style.display = "none";
-    }
-  }
 
-  searchInput.addEventListener("keyup", handleSearch);
-  searchBtn.addEventListener("click", handleSearch);
+      updateHeatmap();
+    })
+    .catch(error => console.error("Error fetching station data:", error));
 
   /*************************************************************
  * 5b) Address-Based Routing with Autocomplete
@@ -258,7 +208,6 @@ marker.on("click", () => {
   const endStationSelect = document.getElementById("endStation");
   const routeBtn = document.getElementById("routeBtn");
 
-  // Fill dropdowns once station data is loaded
   function populateStationRoutingDropdowns(stations) {
     stations.forEach(station => {
       const opt1 = document.createElement("option");
@@ -327,8 +276,7 @@ marker.on("click", () => {
         container.appendChild(closeBtn);
       }
     }, 0);
-});
-
+  });
 
   /*************************************************************
    * 6) Map Click: Zoom In
@@ -350,7 +298,6 @@ marker.on("click", () => {
   const weatherDetails = document.getElementById("weatherDetails");
   const closeModal = document.getElementById("closeModal");
 
-  // Format timestamp to a 12-hour time string
   function formatHour(timestamp) {
     const date = new Date(timestamp);
     let hours = date.getHours();
@@ -559,12 +506,12 @@ marker.on("click", () => {
 });
 
 /*************************************************************
- * 11) Live Weather Widget
+ * Live Weather Widget (No API Key in Frontend)
  *************************************************************/
 const weatherWidgetContent = document.getElementById("weatherWidgetContent");
 
 if (weatherWidgetContent) {
-  fetch("https://api.openweathermap.org/data/2.5/weather?q=Dublin,IE&units=metric&appid=7dc3f16c77e504f5ff93939c736ed43a")
+  fetch("/get_live_weather")
     .then(response => {
       if (!response.ok) throw new Error("Weather fetch failed");
       return response.json();
