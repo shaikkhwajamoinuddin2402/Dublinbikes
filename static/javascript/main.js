@@ -202,7 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .catch(error => console.error("Error fetching station data:", error));
 
   /*************************************************************
- * 5b) Address-Based Routing with Autocomplete
+ * 5b) Address Based Routing with Autocomplete
  *************************************************************/
   const startStationSelect = document.getElementById("startStation");
   const endStationSelect = document.getElementById("endStation");
@@ -256,14 +256,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const closeBtn = document.createElement("span");
         closeBtn.className = "close-routing";
         closeBtn.textContent = "×";
-
-        // Simple minimal styling like the popup
         closeBtn.style.position = "absolute";
         closeBtn.style.top = "5px";
         closeBtn.style.right = "10px";
         closeBtn.style.fontSize = "18px";
         closeBtn.style.cursor = "pointer";
-        closeBtn.style.color = "#000"; // black like the popup
+        closeBtn.style.color = "#000";
         closeBtn.style.fontWeight = "bold";
         closeBtn.style.zIndex = "1000";
         closeBtn.title = "Close";
@@ -286,7 +284,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /*************************************************************
-   * 7) CSV Integration for Bike Chart & Weather Trends
+   * 7) CSV Integration for Bike Chart and Weather Trends
    *************************************************************/
   let bikeData = [];
   let weatherData = [];
@@ -306,7 +304,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return hours + " " + ampm;
   }
 
-  // Populate dropdown with station list
+  // Populate dropdown with station list.
   function populateStationDropdown(stations) {
     stationSelect.innerHTML = "";
     stations.forEach(s => {
@@ -357,7 +355,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Update Bike Chart using numeric hours
+  // Update Bike Chart using numeric hours.
   function updateBikeChartForStation(stationNumber) {
     const filtered = bikeData.filter(row => row.number == stationNumber);
     const hourly = {};
